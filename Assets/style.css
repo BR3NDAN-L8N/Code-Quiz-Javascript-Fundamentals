@@ -1,11 +1,7 @@
-main div#start-div {
+.unhide {
     visibility: visible;
 }
 
-/* button#finish-button {
+.hide {
     visibility: hidden;
 }
-
-button#next-button {
-    visibility: hidden;
-} */

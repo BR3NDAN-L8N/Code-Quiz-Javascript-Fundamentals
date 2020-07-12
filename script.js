@@ -1,10 +1,19 @@
-startButton = document.querySelector('#start-quiz');
-questionDiv = document.querySelector('#question-div');
+const startButton = document.querySelector('#start-quiz');
+const questionDiv = document.querySelector('#question-div');
+const nextButton = document.querySelector("#next-button");
+const finishButton = document.querySelector("#finish-button");
 
 
-function startQuiz 
+
+function startQuiz() {
+    createQuestionDiv();
+} 
 
 function createQuestionDiv() {
+    let questionNumber = 0;
+    let totalQuestions = 0;
+    let answerOption = ["Q1", "Q2", "Q3", "Q4"];
+
     questionDiv.innerHTML = 
     `
     <div id="question-div">
@@ -12,26 +21,24 @@ function createQuestionDiv() {
                 <div class="card-title">Question ${questionNumber} of ${totalQuestions}</div>
                 <div class="card-body">
                     
-                    <label for="question1"><input type="radio" name="question1" id="question-1"> ${quesiton}</label>
+                    <label for="question1"><input type="radio" name="question1" id="question-1"> ${answerOption[0]}</label>
                     <br />
-                    <label for="question2"><input type="radio" name="question2" id="question-2"> ${question}</label>
+                    <label for="question2"><input type="radio" name="question2" id="question-2"> ${answerOption[1]}</label>
                     <br />
-                    <label for="question3"><input type="radio" name="question3" id="question-3"> ${question}</label>
+                    <label for="question3"><input type="radio" name="question3" id="question-3"> ${answerOption[2]}</label>
                     <br />
-                    <label for="question4"><input type="radio" name="question4" id="question-4"> ${question}</label>
+                    <label for="question4"><input type="radio" name="question4" id="question-4"> ${answerOption[3]}</label>
                     <br />
                     <button class="btn btn-dark" type="submit" id="next-button">Next ></button>
-                    <button class="btn btn-dark" id="finish-button">Finish</button>
+                    <button class="btn btn-dark hide" id="finish-button">Finish</button>
                     
                 </div>
-    
-    
-    
-    `
+    `;
+
 }
 
 
 startButton.addEventListener('click', function(e) {
-    startButton.style.visibility = "hidden";
+    startButton.classList.toggle("hide");
     startQuiz();
 })
