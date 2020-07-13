@@ -5,3 +5,9 @@
 .hide {
     visibility: hidden;
 }
+
+.card {
+    margin-left: 12vmin;
+    margin-right: 12vmin;
+    font-size: 4vmin;
+}
