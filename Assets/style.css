@@ -1,3 +1,7 @@
+body {
+    font-size: 4vmin;
+}
+
 .unhide {
     visibility: visible;
 }
@@ -7,7 +11,14 @@
 }
 
 .card {
-    margin-left: 12vmin;
-    margin-right: 12vmin;
-    font-size: 4vmin;
+    padding: auto 5px auto 5px;
+    margin-bottom: 50px;
+}
+
+form label {
+    margin: auto 15px auto 15px;
+}
+
+form input {
+    margin: auto 5px auto 5px;
 }

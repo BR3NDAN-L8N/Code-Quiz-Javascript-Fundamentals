@@ -30,9 +30,9 @@ function createQuestionDiv() {
 
     questionDiv.innerHTML = 
     `
-    <div id="question-div">
-            <div class="card">
-                <div class="card-title">Question ${questionNumber} of ${questions.length}</div>
+    <div class="container" id="question-div">
+            <div class="card justify-content-center ml-md-4 mr-md-4">
+                <div class="card-title text-center">Question ${questionNumber} of ${questions.length}</div>
                 <div class="card-body">
 
                     <p><strong>${questions[0].question}</strong></p>
@@ -45,7 +45,7 @@ function createQuestionDiv() {
                         <br />
                         <label for="option"><input type="radio" name="option" id="option"> <strong>D:</strong> ${questions[0].option3}</label>
                         <br />
-                        <button class="btn btn-dark" type="button" id="next-button" onclick="checkAnswers()">Next ></button>
+                        <button class="btn btn-dark float-right" type="button" id="next-button" onclick="checkAnswers()">Next ></button>
                         <button class="btn btn-dark hide" id="finish-button">Finish</button>
                     </form>
                 </div>
