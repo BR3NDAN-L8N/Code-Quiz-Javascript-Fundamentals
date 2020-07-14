@@ -6,12 +6,8 @@ code {
     font-size: 3vmin;
 }
 
-.unhide {
-    visibility: visible;
-}
-
 .hide {
-    visibility: hidden;
+    display: none;
 }
 
 .card {

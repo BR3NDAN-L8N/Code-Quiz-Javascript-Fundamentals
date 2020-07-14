@@ -91,7 +91,7 @@ $(document).ready(function () {
     }
 
     startButton.on('click', function () {
-        startButton.toggle(".hide");
+        startButton.addClass("hide");
         startQuiz();
     })
 
@@ -100,6 +100,11 @@ $(document).ready(function () {
         console.log(userSelection);
         populateQuestionDiv();
         
+    })
+
+    finishButton.on('click', function () {
+        questionDiv.addClass('hide');
+        scoreDiv.removeClass('hide');
     })
 });
 
