@@ -2,6 +2,10 @@ body {
     font-size: 4vmin;
 }
 
+code {
+    font-size: 3vmin;
+}
+
 .unhide {
     visibility: visible;
 }

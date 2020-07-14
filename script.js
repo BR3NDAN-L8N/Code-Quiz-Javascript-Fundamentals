@@ -1,12 +1,13 @@
-$(document).ready(function() {
+$(document).ready(function () {
     const startButton = $('#start-quiz');
     const questionDiv = $('#question-div');
     const nextButton = $("#next-button");
     const finishButton = $("#finish-button");
     const questionNumber = $("#question-number");
-    let newQuestionNumber = 1;
+    let newQuestionNumber = 0;
     const totalQuestions = $("#total-questions");
-    const theQuestion = $("#question-description");
+    const theQuestionDescription = $("#question-description");
+    const theQuestionCode = $("#question-code");
     let answerOption = ["Option1", "Option2", "Option3", "Option4"];
     const option1 = $('#option1');
     const option2 = $('#option2');
@@ -23,17 +24,37 @@ $(document).ready(function() {
         //     "option3": `${createdOption3}`
         // },
         {
-            question: `This is the question`,
-            correctAnswer: `Correct`,
-            option1: `wrong`,
-            option2: `wrong`,
-            option3: `wrong`
-        }
+            question: {
+                description: `What is the output of the following code?`,
+                codeSnippet: `var fruits = ["Banana", "Orange", "Apple", "Mango"]; \
+                              $("output").text = fruits.sort();`
+            },
+            correctAnswer: `["Apple", "Banana", "Mango", "Orange"]`,
+            wrongAnswers: {
+                option1: `["Orange", "Mango", "Banana", "Apple"]`,
+                option2: `undefined`,
+                option3: `null`
+            },
+        },
+        {
+            question: {
+                description: `How would you access the last index of an array if you didn't know the length?`,
+                codeSnippet: `fruits = ["Banana", "Orange", "Apple", "Mango"];\
+                                fruits2 = ["Watermelon", "Grapes", "Pears"];`
+            },
+            correctAnswer: `const last = fruits[fruits.length - 1];`,
+            wrongAnswers: {
+                option1: `const last = fruits.length - 1;`,
+                option2: `const last = fruits.length(-1);`,
+                option3: `const last = fruits.last;`
+            },
+        },
     ]
 
-    // function startQuiz() {
-    //     populateQuestionDiv();
-    // } 
+    function startQuiz() {
+        randomQuestionOrder(questions);
+        populateQuestionDiv();
+    } 
 
     // Randomize the order of the questions in the questions[array]
     function randomQuestionOrder(questions) {
@@ -49,63 +70,38 @@ $(document).ready(function() {
         }
     }
 
-    // Randomize the order of the possible answers
-    function randomAnswerOrder(currentQuestion) {
-        // create a random number between 0-3, for use as an index number
-        const randNum = Math.floor(Math.random() * 4);
-        // Firstly, assign the correct answer to a random spot in the answerOption[array]
-        answerOption[randNum] = questions[questionNumber--].correctAnswer;
-        // Now that we know where the correct answer is, we assign that a variable to be checked against when checking user's answer
-        correctOption = randNum;
-        // iterate 3 time to fill the remaining answer options in the answerOption[array]
-        for (i = 0; i <= 3; i++) {
-            // if this index is empty, we know the correct answer wasn't randomly put here
-            // alternatively, we could have used the correctOption variable created a few lines up
-            if (answerOption[i] === "") {
-                // index of i puts the current answer option in this index
-                index = i;
-            } else {
-                // index of i+1 puts current answer option in the next index
-                // once this else is hit, subsequent iterations will use the else to fill the remaining indexes
-                index = i++;
-            }
-            // the first wrong answer is at index of 2 in the question object, we iterate from that spot as the rest of the indexes are also wrong answers
-            num = 2 + i;
-            // set the wrong answer at index determined by whether this iteration is empty or filled, with the
-            answerOption[index] = currentQuestion[num];
-        }
-        // returning this for future determination of user's correct choice
-        return correctOption;
-    }
-
     function populateQuestionDiv() {
         questionDiv.removeClass('hide');
+        let index = newQuestionNumber;
+        newQuestionNumber++;
         questionNumber.text(newQuestionNumber);
-        
-        option1.text(answerOption[0]);
-        option2.text(answerOption[1]);
-        option3.text(answerOption[2]);
-        option4.text(answerOption[3]);
-    }
-            // if (answer) {
-            //     if (answers[i].value === questions[0].correctAnswer){
-            //         console.log(`correct!`);
-            //     } else {
-            //         console.log(`wrong...`);
-            //     }
-            // }
+        totalQuestions.text(questions.length);
 
-            startButton.on('click', function () {
-                startButton.toggle(".hide");
-                populateQuestionDiv();
-            })
+        theQuestionDescription.text(questions[index].question.description);
+        theQuestionCode.text(questions[index].question.codeSnippet);
+        option1.text(questions[index].correctAnswer);
+        option2.text(questions[index].wrongAnswers.option1);
+        option3.text(questions[index].wrongAnswers.option2);
+        option4.text(questions[index].wrongAnswers.option3);
+
+        if (newQuestionNumber === questions.length) {
+            finishButton.removeClass('hide');
+            nextButton.addClass('hide');
+        }
+    }
+
+    startButton.on('click', function () {
+        startButton.toggle(".hide");
+        startQuiz();
+    })
+
+    nextButton.on('click', function () {
+        const userSelection = $("input[name='option']:checked").val();
+        console.log(userSelection);
+        populateQuestionDiv();
         
-            nextButton.on('click', function () {
-                const userSelection = $("input[name='option']:checked").val();
-                console.log(userSelection);
-                newQuestionNumber++;
-            })
-    });
+    })
+});
 
 
 
