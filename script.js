@@ -17,13 +17,13 @@ $(document).ready(function () {
     // let correctOption = 0;
     let score = 0;
     let newScoreDisplay = $("#new-score-display");
-    var scores = JSON.parse(localStorage.getItem("userScores"));
+    var savedScoresLocal = JSON.parse(localStorage.getItem("userScores"));
 
     // Checks to see if the todolist exists in localStorage and is an array currently
     // If not, set a local list variable to an empty array
     // Otherwise list is our current list of todos
-    if (!Array.isArray(scores)) {
-      scores = [];
+    if (!Array.isArray(savedScoresLocal)) {
+      savedScoresLocal = [];
     }
 
     $("input[type='submit']").on("click", function(event) {
@@ -37,9 +37,9 @@ $(document).ready(function () {
         }
   
         // Adding our new todo to our local list variable and adding it to local storage
-        scores.push(userRecordObject);
-        localStorage.setItem("userScores", JSON.stringify(scores));
-        console.log(" List Array: "+ scores)
+        savedScoresLocal.push(userRecordObject);
+        localStorage.setItem("userScores", JSON.stringify(savedScoresLocal));
+        console.log(" List Array: "+ savedScoresLocal)
   
         putOnPage();
       });
