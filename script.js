@@ -15,73 +15,59 @@ $(document).ready(function () {
   const option4 = $('#option4');
   const newScoreDisplay = $("#new-score-display");
   const saveScoreButton = $("#save-score-button");
-  const usersNameEntry = $("#users-name");
+  const usersNameInput = $("#users-name");
   const timeDisplay = $("#time-display");
   const topScoreDisplay = $("#top-score-display");
   //  vars for storage
-  var savedScoresLocal = JSON.parse(localStorage.getItem("userScores"));
+  const getSavedScoresLocal = JSON.parse(localStorage.getItem("userScores"));
   //  vars that change
   let newQuestionNumber = 0;
   let score = 0;
 
 
 
-  if (!Array.isArray(savedScoresLocal)) {  // does an array already exist in local storage?
-    savedScoresLocal = [];  // if not then we make it exist!
+  if (!Array.isArray(getSavedScoresLocal)) {  // does an array already exist in local storage?
+    getSavedScoresLocal = [];  // if not then we make it exist!
   }
 
   saveScoreButton.on("click", function (event) {
     event.preventDefault();
-    let val = usersNameEntry.val();  // temporarily storing users entered name into a var
-    usersNameEntry.val("");  // clearing the input field user typed their name
+    let name = usersNameInput.val();  // temporarily storing users entered name into a var
+    usersNameInput.val("");  // clearing the input field user typed their name
     const userRecordObject = {  // setting the users name and score into a new object
-      name: val,
+      name: name,
       score: score
     }
-    savedScoresLocal.push(userRecordObject);  // adding the above new object to saved scores array
-    localStorage.setItem("userScores", JSON.stringify(savedScoresLocal));  // setting the new array to local storage
+    getSavedScoresLocal.push(userRecordObject);  // adding the above new object to saved scores array
+    localStorage.setItem("userScores", JSON.stringify(getSavedScoresLocal));  // setting the new array to local storage
 
     putOnPage();  // puts the new list of scores onto the page from local storage
   });
 
   function putOnPage() {
 
-    topScoreDisplay.empty(); // empties out the html
+    topScoreDisplay.empty();  // empties the section where we display the top scores
+    const savedScores = getSavedScoresLocal;
 
-    var insideList = JSON.parse(localStorage.getItem("userScores"));
-
-    // Checks to see if we have any todos in localStorage
-    // If we do, set the local insideList variable to our todos
-    // Otherwise set the local insideList variable to an empty array
-    if (!Array.isArray(insideList)) {
-      insideList = [];
+    if (!Array.isArray(savedScores)) {  // does an array already exist in local storage?
+      savedScores = [];  // if not then we make it exist!
     }
-    // render our insideList todos to the page
-    for (let i = 0; i < insideList.length; i++) {
-      const p = $("<p>").text(insideList[i].name + " " + insideList[i].score);
-      //var b = $("<button class='delete'>").text("x").attr("data-index", i);
-
-
-      //paragraph area, we are going to stick the button area (button area before the paragraph area = prepend)
-
-      //prepend = we stick the button area to the paragraph area
-      //p.prepend(b);
-
-      //append = inside paragraph area we stick the button.
-      //p.append(b);
-      topScoreDisplay.prepend(p);
+    
+    for (let i = 0; i < savedScores.length; i++) {  // render our savedScores to the page
+      const newParagraph = $("<p>").text(`Name: ${savedScores[i].name}, Score: ${savedScores[i].score}`);  // put each combo of name and score into a p-tag
+      topScoreDisplay.prepend(newParagraph);  // Prepend so most recent score shows first
     }
   }
   
-  var timerInterval;  // this is used for setting/resetting the time interval that runs the timer
-  var timerRunning = false;  // this will be checked before certain timer functions happen
+  let timerInterval;  // this is used for setting/resetting the time interval that runs the timer
+  let timerRunning = false;  // this will be checked before certain timer functions happen
 
   
   const timer = {  // Our timer object
 
     time: 30,  // initiate time
-    reset: function () {
-      timer.time = 30;  // reset time in timer
+    reset: function () {  // reset timer
+      timer.time = 30;  // reset timer.time back to 30
       timeDisplay.text("00:30");  // reset time in the timer display
     },
 
@@ -162,9 +148,9 @@ $(document).ready(function () {
       questionsArray[randomIndex] = tempObject;  // then we take this iteration's index value and plug it in where we took the random index from
     }
   }
-
+  // Assign values to sections in the div containing the question
   function populateQuestionDiv() {
-    questionDiv.removeClass('hide');  // div for questions is hidden by default, unhide it
+    questionDiv.removeClass('hide');  // div for questions is hidden by default, un-hide it
     let index = newQuestionNumber;  // newQuestNum starts at 0 and so will our index, they will increment through each question
     newQuestionNumber++;  // incrementing newQuestNum to be displayed to user so they know what question they are on
     questionNumber.text(newQuestionNumber);  // setting the number so the user can see it
@@ -177,7 +163,7 @@ $(document).ready(function () {
     option4.text(questionsArray[index].wrongAnswers.option3);  // and this is the final wrong answer
 
     if (newQuestionNumber === questionsArray.length) {  // if the questions number we are on is the same as the number of questions,
-      finishButton.removeClass('hide');  // we unhide the "finish" button,
+      finishButton.removeClass('hide');  // we un-hide the "finish" button,
       nextButton.addClass('hide');  // and hide the "next" button as we have no more questions left and want to "finish" the quiz
     }
   }
