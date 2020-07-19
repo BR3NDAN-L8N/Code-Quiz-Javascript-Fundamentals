@@ -74,31 +74,17 @@ $(document).ready(function () {
       $("#user-score-display").prepend(p);
     }
   }
+  
+  var timerInterval;  // this is used for setting/resetting the time interval that runs the timer
+  var timerRunning = false;  // this will be checked before certain timer functions happen
 
+  
+  const timer = {  // Our timer object
 
-
-  window.onload = function () {
-    $("#loseTime").on("click", timer.loseTime);
-    $("#stop").on("click", timer.stop);
-    $("#reset").on("click", timer.reset);
-    $("#start").on("click", timer.start);
-  };
-
-  //  Variable that will hold our setInterval that runs the timer
-  var timerInterval;
-
-  //prevents the timer from being sped up unnecessarily
-  var timerRunning = false;
-
-  // Our timer object
-  const timer =
-  {
-
-    time: 30, //reset time
+    time: 30,  // initiate time
     reset: function () {
-      timer.time = 30;     //reset time
-      // DONE: Change the "display" div to "00:00."
-      timeDisplay.text("00:30"); //reset time
+      timer.time = 30;  // reset time in timer
+      timeDisplay.text("00:30");  // reset time in the timer display
     },
 
     start: function () {
@@ -108,30 +94,20 @@ $(document).ready(function () {
         timerRunning = true;
       }
     },
+
     stop: function () {
-      //Clear timer interval
-      clearInterval(timerInterval);
-      // timer no longer running so set to false
-      timerRunning = false;
+      clearInterval(timerInterval);  //Clear timer interval
+      timerRunning = false;  // timer no longer running so set to false
     },
+
     count: function () {
-      //decrement time by 1
-      timer.time--;
-      // DONE: Get the current time, pass that into the timer.timeConverter function,
-      //       and save the result in a variable.
-      const converted = timer.timeConverter(timer.time);
-      console.log(converted);
-      // DONE: Use the variable we just created to show the converted time in the "display" div.
-      timeDisplay.text(converted);
+      timer.time--;  //decrement time by 1
+      timeDisplay.text(timer.timeConverter(timer.time));  // Pass the current time (timer.time) into timeConverter() and display the time
     },
-    timeConverter: function (t) {
-      //t=1
-      //min0
-      //min=00
-      //sec1
-      //sec=01
-      var minutes = Math.floor(t / 60);
-      var seconds = t - (minutes * 60);
+
+    timeConverter: function (time) {
+      let minutes = Math.floor(time / 60);  // time, in seconds, divided by 60 to give us number of minutes
+      let seconds = time - (minutes * 60);  // multiply minutes by 60 to give it's amount of seconds, and subtract from the time we have left
 
       if (seconds < 10) {
         seconds = `0${seconds}`;
@@ -182,34 +158,29 @@ $(document).ready(function () {
   // Randomize the order of the questions in the questionsArray[array]
   function randomQuestionOrder(questionsArray) {
     for (i = 0; i < questionsArray.length; i++) {
-      // Take questions object at questionsArray index i and temporarily hold it in tempObject
-      let tempObject = questionsArray[i];
-      // take this random number from 0 to max length of questionsArray array... and
-      let randomIndex = Math.floor(Math.random() * questionsArray.length);
-      // and take that index of questionsArray and assign it in the place we took this iteration from... then
-      questionsArray[i] = questionsArray[randomIndex];
-      // then we take this iteration's index value and plug it in where we took the random index from
-      questionsArray[randomIndex] = tempObject;
+      let tempObject = questionsArray[i];  // Take questions object at questionsArray index i and temporarily hold it in tempObject
+      let randomIndex = Math.floor(Math.random() * questionsArray.length);  // take this random number from 0 to max length of questionsArray array... and
+      questionsArray[i] = questionsArray[randomIndex];  // and take that index of questionsArray and assign it in the place we took this iteration from... then
+      questionsArray[randomIndex] = tempObject;  // then we take this iteration's index value and plug it in where we took the random index from
     }
   }
 
   function populateQuestionDiv() {
-    questionDiv.removeClass('hide');
-    let index = newQuestionNumber;
-    newQuestionNumber++;
-    questionNumber.text(newQuestionNumber);
-    totalQuestions.text(questionsArray.length);
+    questionDiv.removeClass('hide');  // div for questions is hidden by default, unhide it
+    let index = newQuestionNumber;  // newQuestNum starts at 0 and so will our index, they will increment through each question
+    newQuestionNumber++;  // incrementing newQuestNum to be displayed to user so they know what question they are on
+    questionNumber.text(newQuestionNumber);  // setting the number so the user can see it
+    totalQuestions.text(questionsArray.length);  // setting number of total questions so the user knows when their suffering will be over
+    theQuestionDescription.text(questionsArray[index].question.description);  // setting visibility of; the question description,
+    theQuestionCode.text(questionsArray[index].question.codeSnippet);  // the code snippet for the question,
+    option1.text(questionsArray[index].correctAnswer);  // then setting the options, this one is the correct answer,
+    option2.text(questionsArray[index].wrongAnswers.option1);  // this a wrong answer,
+    option3.text(questionsArray[index].wrongAnswers.option2);  // this a wrong answer,
+    option4.text(questionsArray[index].wrongAnswers.option3);  // and this is the final wrong answer
 
-    theQuestionDescription.text(questionsArray[index].question.description);
-    theQuestionCode.text(questionsArray[index].question.codeSnippet);
-    option1.text(questionsArray[index].correctAnswer);
-    option2.text(questionsArray[index].wrongAnswers.option1);
-    option3.text(questionsArray[index].wrongAnswers.option2);
-    option4.text(questionsArray[index].wrongAnswers.option3);
-
-    if (newQuestionNumber === questionsArray.length) {
-      finishButton.removeClass('hide');
-      nextButton.addClass('hide');
+    if (newQuestionNumber === questionsArray.length) {  // if the questions number we are on is the same as the number of questions,
+      finishButton.removeClass('hide');  // we unhide the "finish" button,
+      nextButton.addClass('hide');  // and hide the "next" button as we have no more questions left and want to "finish" the quiz
     }
   }
 
@@ -240,11 +211,3 @@ $(document).ready(function () {
 
 
 });
-
-
-
-
-
-// function fillQuestionContent() {
-
-// }
