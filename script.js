@@ -16,7 +16,7 @@ $(document).ready(function () {
     const option4 = $('#option4');
     // let correctOption = 0;
     let score = 0;
-    let usersScore = $("#users-score");
+    let newScoreDisplay = $("#new-score-display");
     var scores = JSON.parse(localStorage.getItem("userScores"));
 
     // Checks to see if the todolist exists in localStorage and is an array currently
@@ -31,13 +31,13 @@ $(document).ready(function () {
         // Setting the input value to a variable and then clearing the input
         var val = $("input[type='text']").val();
         $("input[type='text']").val("");
-        var userObj={
+        var userRecordObject={
             name:val,
             score:score
         }
   
         // Adding our new todo to our local list variable and adding it to local storage
-        scores.push(userObj);
+        scores.push(userRecordObject);
         localStorage.setItem("userScores", JSON.stringify(scores));
         console.log(" List Array: "+ scores)
   
@@ -47,7 +47,7 @@ $(document).ready(function () {
       function putOnPage() 
       {
   
-      $("#todo-list").empty(); // empties out the html
+      $("#user-score-display").empty(); // empties out the html
   
         var insideList = JSON.parse(localStorage.getItem("userScores"));
   
@@ -79,7 +79,7 @@ $(document).ready(function () {
   
           //append = inside paragraph area we stick the button.
           //p.append(b);
-          $("#todo-list").prepend(p);
+          $("#user-score-display").prepend(p);
         }
       }
   
@@ -188,7 +188,7 @@ var stopwatch =
   }
 };
 
-    let questions = [
+    let questionsArray = [
         // {    // created question template
         //     "question": `${createdQuestion}`,
         //     "correctAnswer": `${createdCorrectAnswer}`,
@@ -226,17 +226,17 @@ var stopwatch =
 
     
 
-    // Randomize the order of the questions in the questions[array]
-    function randomQuestionOrder(questions) {
-        for (i = 0; i < questions.length; i++) {
-            // Take questions object at questions index i and temporarily hold it in tempObject
-            let tempObject = questions[i];
-            // take this random number from 0 to max length of questions array... and
-            let randomIndex = Math.floor(Math.random() * questions.length);
-            // and take that index of questions and assign it in the place we took this iteration from... then
-            questions[i] = questions[randomIndex];
+    // Randomize the order of the questions in the questionsArray[array]
+    function randomQuestionOrder(questionsArray) {
+        for (i = 0; i < questionsArray.length; i++) {
+            // Take questions object at questionsArray index i and temporarily hold it in tempObject
+            let tempObject = questionsArray[i];
+            // take this random number from 0 to max length of questionsArray array... and
+            let randomIndex = Math.floor(Math.random() * questionsArray.length);
+            // and take that index of questionsArray and assign it in the place we took this iteration from... then
+            questionsArray[i] = questionsArray[randomIndex];
             // then we take this iteration's index value and plug it in where we took the random index from
-            questions[randomIndex] = tempObject;
+            questionsArray[randomIndex] = tempObject;
         }
     }
 
@@ -245,16 +245,16 @@ var stopwatch =
         let index = newQuestionNumber;
         newQuestionNumber++;
         questionNumber.text(newQuestionNumber);
-        totalQuestions.text(questions.length);
+        totalQuestions.text(questionsArray.length);
 
-        theQuestionDescription.text(questions[index].question.description);
-        theQuestionCode.text(questions[index].question.codeSnippet);
-        option1.text(questions[index].correctAnswer);
-        option2.text(questions[index].wrongAnswers.option1);
-        option3.text(questions[index].wrongAnswers.option2);
-        option4.text(questions[index].wrongAnswers.option3);
+        theQuestionDescription.text(questionsArray[index].question.description);
+        theQuestionCode.text(questionsArray[index].question.codeSnippet);
+        option1.text(questionsArray[index].correctAnswer);
+        option2.text(questionsArray[index].wrongAnswers.option1);
+        option3.text(questionsArray[index].wrongAnswers.option2);
+        option4.text(questionsArray[index].wrongAnswers.option3);
 
-        if (newQuestionNumber === questions.length) {
+        if (newQuestionNumber === questionsArray.length) {
             finishButton.removeClass('hide');
             nextButton.addClass('hide');
         }
@@ -262,7 +262,7 @@ var stopwatch =
 
     startButton.on('click', function () {
         startButton.addClass("hide");
-        randomQuestionOrder(questions);
+        randomQuestionOrder(questionsArray);
         populateQuestionDiv();
     })
 
@@ -279,7 +279,7 @@ var stopwatch =
     finishButton.on('click', function () {
         questionDiv.addClass('hide');
         scoreDiv.removeClass('hide');
-        usersScore.text(`Your score was ${score}!`);
+        newScoreDisplay.text(`Your score was ${score}!`);
 
     })
 
