@@ -21,7 +21,7 @@
 # About The Project
 
 ## Finished Project
-Project Link: [https://br3ndan-l8n.github.io/Code-Quiz-Javascript/Fundamentals/](https://br3ndan-l8n.github.io/Code-Quiz-Javascript/Fundamentals/)
+Project Link: [https://br3ndan-l8n.github.io/Code-Quiz-Javascript-Fundamentals/](https://br3ndan-l8n.github.io/Code-Quiz-Javascript-Fundamentals/)
 
 ## Project Screenshot
 
