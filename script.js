@@ -1,54 +1,52 @@
 $(document).ready(function () {
+  //  Vars linking to HTML
   const startButton = $('#start-quiz');
   const questionDiv = $('#question-div');
   const nextButton = $("#next-button");
   const finishButton = $("#finish-button");
   const questionNumber = $("#question-number");
-  let newQuestionNumber = 0;
   const totalQuestions = $("#total-questions");
   const theQuestionDescription = $("#question-description");
   const theQuestionCode = $("#question-code");
   const scoreDiv = $("#score-div");
-  // let answerOption = ["Option1", "Option2", "Option3", "Option4"];
   const option1 = $('#option1');
   const option2 = $('#option2');
   const option3 = $('#option3');
   const option4 = $('#option4');
-  // let correctOption = 0;
-  let score = 0;
-  let newScoreDisplay = $("#new-score-display");
-  var savedScoresLocal = JSON.parse(localStorage.getItem("userScores"));
-
+  const newScoreDisplay = $("#new-score-display");
+  const saveScoreButton = $("#save-score-button");
+  const usersNameEntry = $("#users-name");
   const timeDisplay = $("#time-display");
+  const topScoreDisplay = $("#top-score-display");
+  //  vars for storage
+  var savedScoresLocal = JSON.parse(localStorage.getItem("userScores"));
+  //  vars that change
+  let newQuestionNumber = 0;
+  let score = 0;
 
-  // Checks to see if the todolist exists in localStorage and is an array currently
-  // If not, set a local list variable to an empty array
-  // Otherwise list is our current list of todos
-  if (!Array.isArray(savedScoresLocal)) {
-    savedScoresLocal = [];
+
+
+  if (!Array.isArray(savedScoresLocal)) {  // does an array already exist in local storage?
+    savedScoresLocal = [];  // if not then we make it exist!
   }
 
-  $("input[type='submit']").on("click", function (event) {
+  saveScoreButton.on("click", function (event) {
     event.preventDefault();
-    // Setting the input value to a variable and then clearing the input
-    var val = $("input[type='text']").val();
-    $("input[type='text']").val("");
-    var userRecordObject = {
+    let val = usersNameEntry.val();  // temporarily storing users entered name into a var
+    usersNameEntry.val("");  // clearing the input field user typed their name
+    const userRecordObject = {  // setting the users name and score into a new object
       name: val,
       score: score
     }
+    savedScoresLocal.push(userRecordObject);  // adding the above new object to saved scores array
+    localStorage.setItem("userScores", JSON.stringify(savedScoresLocal));  // setting the new array to local storage
 
-    // Adding our new todo to our local list variable and adding it to local storage
-    savedScoresLocal.push(userRecordObject);
-    localStorage.setItem("userScores", JSON.stringify(savedScoresLocal));
-    console.log(" List Array: " + savedScoresLocal)
-
-    putOnPage();
+    putOnPage();  // puts the new list of scores onto the page from local storage
   });
 
   function putOnPage() {
 
-    $("#user-score-display").empty(); // empties out the html
+    topScoreDisplay.empty(); // empties out the html
 
     var insideList = JSON.parse(localStorage.getItem("userScores"));
 
@@ -71,7 +69,7 @@ $(document).ready(function () {
 
       //append = inside paragraph area we stick the button.
       //p.append(b);
-      $("#user-score-display").prepend(p);
+      topScoreDisplay.prepend(p);
     }
   }
   
