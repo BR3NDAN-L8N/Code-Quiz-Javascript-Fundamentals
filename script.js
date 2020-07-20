@@ -162,6 +162,14 @@ $(document).ready(function () {
       nextButton.addClass('hide');  // and hide the "next" button as we have no more questions left and want to "finish" the quiz
     }
   }
+  // Check that the users selection is correct or not
+  function checkAnswer() {
+    const userSelection = $("input[name='option']:checked").val();  // we assign the value of the selected answer,
+    console.log(`users selection = ${userSelection}`);
+    if (userSelection === "Option1") {  // check that the selection is correct, if so,
+      score += 20;  // we add to the users score
+    }
+  }
   // EVENT LISTENERS
   startButton.on('click', function () {  // When user hits the "start quiz" button,
     startButton.addClass("hide");  // hide the start button,
@@ -171,15 +179,13 @@ $(document).ready(function () {
   })
 
   nextButton.on('click', function () {  // when user hits the next button,
-    const userSelection = $("input[name='option']:checked").val();  // we assign the value of the selected answer,
-    if (userSelection === "option1") {  // check that the selection is correct, if so we add to the users score
-      score += 20;
-    }
+    checkAnswer();
     populateQuestionDiv();  // next button was pressed, so we load up the next question in the array
     timer.reset();  // reset the timer for the new question
   })
 
   finishButton.on('click', function () {  // When user hits the finish button,
+    checkAnswer();
     questionDiv.addClass('hide');  // hide the div containing question stuff because we don't need to see it anymore
     scoreDiv.removeClass('hide');  // un-hide the score-div, so user can access score related stuff; save name/score, see other scores
     newScoreDisplay.text(`Your score was ${score}!`);  // display the score the user just got with enthusiasm! 
