@@ -14,10 +14,6 @@
 
 <body class="container">
 
-
-
-
-
     <header class="container-fluid">
         <h1 class="jumbotron text-center">Javascript Fundamentals Quiz</h1>
     </header>
@@ -26,24 +22,15 @@
         <div class="text-center" id="start-div">
             <button class="btn btn-dark text-center" id="start-quiz">Start Quiz</button>
         </div>
+
         <div class="container hide" id="question-div">
-
-            <div id="time-display">00:30</div>
-
-            <!-- Div containing our stopwatch controls -->
-            <!-- <div id="buttons">
-                <button id="start">Start</button>
-                <button id="stop">Stop</button>
-                <button id="reset">Reset</button>
-                <button id="loseTime">Lose Time</button>
-            </div> -->
+            <div id="time-display">00:03</div>
             <div class="card justify-content-center ml-md-4 mr-md-4">
                 <div class="card-title text-center">Question <span id="question-number">0</span> of <span
                         id="total-questions">0</span>
                 </div>
 
-                <div class="card-body">
-
+                <div class="card-body"> 
                     <p><strong id="question-description"></strong></p>
                     <p><code id="question-code"></code></p>
                     <form>
@@ -65,19 +52,25 @@
                 </div>
             </div>
         </div>
-        <div class="hide" id="score-div">
-            <form>
-                <input type="text" id="users-name" />
-                <input type="submit" id="save-score-button" value="Save" />
-            </form>
-            <article class="container">
+
+        <div class="hide container-fluid" id="score-div">
+            <article class="card p-5">
                 <div class="row">
-                    <div class="col">
-                        <h2 id="new-score-display"></h2>
-                    </div>
-                    <div class="col" id="top-score-display"></div>
+                    <form class="col-md-5 col-sm-12 p-2" id="new-score-form">
+                        <h2 class="text-center">Your Score</h2>
+                        <h3 id="new-score-display"></h3>
+                        <label class="col-12" for="user-name">Enter Your Name</label>
+                        <input class="col-12" type="text" id="users-name" />
+                        <input class="col-12 btn btn-dark" type="submit" id="save-score-button" value="Save" />
+                    </form>
+                    <section class="col-md-5 col-sm-12 p-2 mt-sm-5">
+                        <h2 class="text-center">Top Scores</h2>
+                        <div id="top-score-display"></div>
+                    </section>
+    
                 </div>
             </article>
+            
         </div>
     </main>
 

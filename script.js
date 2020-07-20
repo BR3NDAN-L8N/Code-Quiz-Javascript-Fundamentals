@@ -3,7 +3,7 @@ $(document).ready(function () {
   const startButton = $('#start-quiz');  // button that starts the quiz, hides upon pressing
   const questionDiv = $('#question-div');  // The div holding the question, answers, next/finish button, and timer.
   const nextButton = $("#next-button");  // next button, for going to next question
-  const finishButton = $("#finish-button");  // button shown on last question only, event bring up score-div
+  const finishButton = $("#finish-button");  // button shown on last question only, event brings up score-div
   const questionNumber = $("#question-number");  // The number of the current question user is on
   const totalQuestions = $("#total-questions");  // Total number of questions the user has to endure
   const theQuestionDescription = $("#question-description");  // Where we display the question being asked
@@ -19,7 +19,8 @@ $(document).ready(function () {
   const timeDisplay = $("#time-display");  // where time is displayed
   const topScoreDisplay = $("#top-score-display");  // where top scores are displayed
   //  vars for storage
-  const getSavedScoresLocal = JSON.parse(localStorage.getItem("userScores"));  // get scores from local storage
+  const newScoreForm = $("#new-score-form");
+  let getSavedScoresLocal = JSON.parse(localStorage.getItem("userScores"));  // get scores from local storage
   //  vars that change
   let newQuestionNumber = 0;  // 2 uses, 1: display to the user so they know what Q they're on. 2: before increment on new Q, used as an index point for the array of questions
   let score = 0;  // Score that the user accumulates through taking the quiz
@@ -28,11 +29,11 @@ $(document).ready(function () {
 
   
   const timer = {  // Our timer object
-    time: 30,  // initiate time
+    time: 3,  // initiate time
     
     reset: function () {  // reset timer
-      timer.time = 30;  // reset timer.time back to 30
-      timeDisplay.text("00:30");  // reset time in the timer display
+      timer.time = 3;  // reset timer.time back to 30
+      timeDisplay.text("00:03");  // reset time in the timer display
     },
 
     start: function () {  // start timer
@@ -51,6 +52,14 @@ $(document).ready(function () {
     count: function () {  // how the timer counts
       timer.time--;  //decrement time by 1
       timeDisplay.text(timer.timeConverter(timer.time));  // Pass the current time (timer.time) into timeConverter() and display the time
+        if (timer.time === 0){
+        timer.stop();
+        if (newQuestionNumber === questionsArray.length) {
+          finishQuiz();
+        } else {
+          nextQuestion();
+        }
+      }
     },
 
     timeConverter: function (time) {  // convert time from seconds into minutes and seconds for display purposes
@@ -107,6 +116,7 @@ $(document).ready(function () {
 
   saveScoreButton.on("click", function (event) {  // when user presses the button to submit their Name and Score
     event.preventDefault();  // We pave our own path
+    newScoreForm.addClass("hide");
     let name = usersNameInput.val();  // temporarily storing users entered name
     usersNameInput.val("");  // clearing the input field user typed their name
     const userRecordObject = {  // setting the users name and score into a new object
@@ -161,11 +171,28 @@ $(document).ready(function () {
       finishButton.removeClass('hide');  // we un-hide the "finish" button,
       nextButton.addClass('hide');  // and hide the "next" button as we have no more questions left and want to "finish" the quiz
     }
+
+    timer.start();
   }
+
+  function nextQuestion() {
+    checkAnswer();
+    populateQuestionDiv();  // next button was pressed, so we load up the next question in the array
+    timer.reset();  // reset the timer for the new question
+  }
+
+  function finishQuiz() {
+    checkAnswer();
+    questionDiv.addClass('hide');  // hide the div containing question stuff because we don't need to see it anymore
+    scoreDiv.removeClass('hide');  // un-hide the score-div, so user can access score related stuff; save name/score, see other scores
+    newScoreDisplay.text(`Your score was ${score}!`);  // display the score the user just got with enthusiasm! 
+    timer.stop();  // stop the timer so it isn't running in the background
+    displayScores();
+  }
+
   // Check that the users selection is correct or not
   function checkAnswer() {
     const userSelection = $("input[name='option']:checked").val();  // we assign the value of the selected answer,
-    console.log(`users selection = ${userSelection}`);
     if (userSelection === "Option1") {  // check that the selection is correct, if so,
       score += 20;  // we add to the users score
     }
@@ -175,23 +202,9 @@ $(document).ready(function () {
     startButton.addClass("hide");  // hide the start button,
     randomQuestionOrder(questionsArray);  // randomize the order of the questions,
     populateQuestionDiv();  // display first question,
-    timer.start();  // and start the timer
   })
 
-  nextButton.on('click', function () {  // when user hits the next button,
-    checkAnswer();
-    populateQuestionDiv();  // next button was pressed, so we load up the next question in the array
-    timer.reset();  // reset the timer for the new question
-  })
-
-  finishButton.on('click', function () {  // When user hits the finish button,
-    checkAnswer();
-    questionDiv.addClass('hide');  // hide the div containing question stuff because we don't need to see it anymore
-    scoreDiv.removeClass('hide');  // un-hide the score-div, so user can access score related stuff; save name/score, see other scores
-    newScoreDisplay.text(`Your score was ${score}!`);  // display the score the user just got with enthusiasm! 
-    timer.stop();  // stop the timer so it isn't running in the background
-
-  })
-
+  nextButton.on('click', nextQuestion);  // when user clicks the Next button, run nextQuestion
+  finishButton.on('click', finishQuiz);  // when user clicks the Finish button, run finishQuiz
 
 });
