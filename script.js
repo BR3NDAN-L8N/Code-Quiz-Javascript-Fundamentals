@@ -194,7 +194,7 @@ $(document).ready(function () {
   function checkAnswer() {
     const userSelection = $("input[name='option']:checked").val();  // we assign the value of the selected answer,
     if (userSelection === "Option1") {  // check that the selection is correct, if so,
-      score += 20;  // we add to the users score
+      score += 50;  // we add to the users score
     }
   }
   // EVENT LISTENERS
