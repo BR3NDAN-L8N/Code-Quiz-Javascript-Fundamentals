@@ -29,11 +29,11 @@ $(document).ready(function () {
 
   
   const timer = {  // Our timer object
-    time: 3,  // initiate time
+    time: 30,  // initiate time
     
     reset: function () {  // reset timer
-      timer.time = 3;  // reset timer.time back to 30
-      timeDisplay.text("00:03");  // reset time in the timer display
+      timer.time = 30;  // reset timer.time back to 30
+      timeDisplay.text("00:30");  // reset time in the timer display
     },
 
     start: function () {  // start timer
