@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     timeConverter: function (time) {  // convert time from seconds into minutes and seconds for display purposes
       let minutes = Math.floor(time / 60);  // time, in seconds, divided by 60 to give us number of minutes
-      let seconds = time - (minutes * 60);  // multiply minutes by 60 to give it's amount of seconds, and subtract from the total number of seconds that time is (time is >= minutes)
+      let seconds = time - (minutes * 60);  // multiply minutes by 60 to give it's amount of Seconds, and subtract from the total number of seconds that Time equals (Time is always >= Minutes)
 
       if (seconds < 10) {  // if secs < 10,
         seconds = `0${seconds}`;  // we want seconds to display as 00 - 09
